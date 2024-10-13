@@ -1,12 +1,18 @@
 
 currentPlayer = "X";
 const boardGrid = document.querySelector(".board-grid");
-const turnMessage = document.querySelector(".game-message");
+const turnMessage = document.querySelector(".turn-message");
 const dialog = document.querySelector("dialog");
 const dialogPlayer = document.querySelector(".dialog-player");
 const dialogWinner = document.querySelector(".dialog-winner");
+const closeBtn = document.querySelector(".close-button");
 
-const gameBoard = [
+closeBtn.addEventListener("click", (event) => {
+  event.preventDefault();
+  dialog.close();
+});
+
+let gameBoard = [
   [1, 2, 3],
   [4, 5, 6],
   [7, 8, 9]];
@@ -75,6 +81,25 @@ function switchPlayer() {
   //if current player is X then it switch into player O vice versa
   currentPlayer = currentPlayer === "X" ? "O" : "X";
 
+}
+
+function resetGame() {
+  //reset the game board from string "X" or "O" to its original value so it can be use to next game
+  gameBoard = [
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9]];
+
+  //reset all the tile from the DOM board
+  document.querySelectorAll(".tile-button").forEach((tile) => {
+    tile.textContent = ""
+  })
+  
+
+  //rest the current player state
+  currentPlayer = "X";
+  //reset the turn message state
+  turnMessage.textContent = "Player 1 (X) turn"
 }
 
 /* function playGame() {
@@ -147,16 +172,17 @@ function playGame() {
 
       tile.addEventListener("click", (event) => {
         event.preventDefault();
-        const row = parseInt(tile.dataset.row);
-        const col = parseInt(tile.dataset.col);
+        const row = parseInt(tile.dataset.row);//set a data attribute to each DOM tile with data-row = "0" value of i
+        const col = parseInt(tile.dataset.col);//set a data attribute to each DOM tile with data-col = "0" value of j
 
+        //validate the tile if already taken.
         if (typeof gameBoard[row][col] === "string") {
           console.log("This tile is already taken. Choose another one.");
           turnMessage.textContent = "Tile is already taken"
           return;
         }
 
-        gameBoard[row][col] = currentPlayer;
+        gameBoard[row][col] = currentPlayer; //Change the value of the game board that is selected in DOM board
         tile.textContent = currentPlayer;
         switchPlayer();
         currentPlayer === "X" ? `${turnMessage.textContent = "Player 1 (X) turn"}` : `${turnMessage.textContent = "Player 2 (O) turn"}`;
@@ -165,13 +191,13 @@ function playGame() {
 
         if (checkWin()) {
           dialog.showModal();
-          tile.classList.add("empty-button")
+          resetGame();          
           return;
         }
 
         if (checkDraw()) {
           dialog.showModal();
-          tile.classList.add("empty-button")
+          resetGame();
           return;
         }
       });
