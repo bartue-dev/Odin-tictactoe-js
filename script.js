@@ -1,4 +1,10 @@
+
 currentPlayer = "X";
+const boardGrid = document.querySelector(".board-grid");
+const turnMessage = document.querySelector(".game-message");
+const dialog = document.querySelector("dialog");
+const dialogPlayer = document.querySelector(".dialog-player");
+const dialogWinner = document.querySelector(".dialog-winner");
 
 const gameBoard = [
   [1, 2, 3],
@@ -31,12 +37,16 @@ function checkWin() {
 
     //checks if each tile in the mark are all "X"
     if (marks.every(mark => mark === "X")) {
-      //console.log("Player 1 (X) wins");
+      console.log("Player 1 (X) wins");
+      dialogPlayer.textContent = "Player 1 (X)"
+      dialogWinner.textContent = "Won!"
       return true;
     }
     //checks if each tile in the mark are all "O"
     else if (marks.every(mark => mark === "O")) {
-      //console.log("Player 2 (O) wins");
+      console.log("Player 2 (O) wins");
+      dialogPlayer.textContent = "Player 2 (O)"
+      dialogWinner.textContent = "Won!"
       return true;
     }
 
@@ -51,12 +61,20 @@ function checkDraw() {
     return false;
   }
   //check if the game board is full
-  return isBoardFull = gameBoard.flat().every(tile => tile === "X" || tile === "O");
+   const isBoardFull = gameBoard.flat().every(tile => tile === "X" || tile === "O");
+
+   if (isBoardFull) {
+    console.log("DRAW!")
+    dialogPlayer.textContent = "It's a draw!"
+    dialogWinner.textContent = ""
+    return true;
+   } 
 }
 
 function switchPlayer() {
   //if current player is X then it switch into player O vice versa
   currentPlayer = currentPlayer === "X" ? "O" : "X";
+
 }
 
 /* function playGame() {
@@ -114,3 +132,53 @@ function switchPlayer() {
   return;
 }
 playGame(); */
+function playGame() {
+
+  for (i = 0; i < gameBoard.length; i++) {
+    for (j = 0; j < gameBoard[i].length; j++) {
+
+      const tile = document.createElement("button");
+      tile.classList.add("tile-button");
+      tile.dataset.row = i;
+      tile.dataset.col = j;
+      boardGrid.appendChild(tile);
+
+      
+
+      tile.addEventListener("click", (event) => {
+        event.preventDefault();
+        const row = parseInt(tile.dataset.row);
+        const col = parseInt(tile.dataset.col);
+
+        if (typeof gameBoard[row][col] === "string") {
+          console.log("This tile is already taken. Choose another one.");
+          turnMessage.textContent = "Tile is already taken"
+          return;
+        }
+
+        gameBoard[row][col] = currentPlayer;
+        tile.textContent = currentPlayer;
+        switchPlayer();
+        currentPlayer === "X" ? `${turnMessage.textContent = "Player 1 (X) turn"}` : `${turnMessage.textContent = "Player 2 (O) turn"}`;
+        console.log(gameBoard);
+
+
+        if (checkWin()) {
+          dialog.showModal();
+          tile.classList.add("empty-button")
+          return;
+        }
+
+        if (checkDraw()) {
+          dialog.showModal();
+          tile.classList.add("empty-button")
+          return;
+        }
+      });
+    }
+  }
+
+  
+}
+
+playGame()
