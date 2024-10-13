@@ -1,0 +1,259 @@
+/*
+  1. Use a more-intuitive box-sizing model.
+*/
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+/*
+  2. Remove default margin
+*/
+* {
+  margin: 0;
+  padding: 0;
+  font-family: mainFont;
+}
+
+/*
+  Typographic tweaks!
+  3. Add accessible line-height
+  4. Improve text rendering
+*/
+body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/*
+  5. Improve media defaults
+*/
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+}
+
+/*
+  6. Remove built-in form typography styles
+*/
+input, button, textarea, select {
+  font: inherit;
+}
+
+/*
+  7. Avoid text overflows
+*/
+p, h1, h2, h3, h4, h5, h6 {
+  overflow-wrap: break-word;
+}
+
+/*
+  8. Create a root stacking context
+*/
+#root, #__next {
+  isolation: isolate;
+}
+
+@font-face {
+  font-family: mainFont;
+  src: url(./assets/font/Rubik-Regular.ttf);
+}
+
+@font-face {
+  font-family: titleFont;
+  src: url(./assets/font/KnightWarrior-w16n8.otf);
+}
+
+@font-face {
+  font-family: tilesFont ;
+  src: url(./assets/font/Moonhouse-yE5M.ttf);
+}
+
+/* INDEX PAGE */
+.index-container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+
+  height: 100vh;
+  background: rgb(255,255,255);
+  background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 43%, rgba(235,235,235,1) 100%);
+
+}
+
+.index-container > h1 {
+  font-size: 8rem;
+  font-family: titleFont;
+  font-weight: 400;
+  color: white;
+  -webkit-text-stroke: 2px black;
+  letter-spacing: 5px;
+}
+
+.index-container > h2 {
+  font-size: 1.8rem;
+  font-weight: 400;
+  text-transform: uppercase;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  letter-spacing: 3px;
+}
+
+.index-container form {
+  width: auto;
+}
+
+.index-container form > .player-one-container,
+.index-container form > .player-two-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 13px;
+}
+
+.index-container form .player-one-container label,
+.index-container form .player-two-container label {
+  font-size: 1.8rem;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+}
+
+.index-container form .player-one-container input,
+.index-container form .player-two-container input {
+  border: 1px solid darkgray;
+  outline: none;
+  border-radius: 5px;
+  padding: 7px;
+  width: 300px;
+  letter-spacing: 2px;
+}
+
+.index-container form input[type="text"] {
+  font-size: 1.3rem;
+}
+
+.index-container form .button-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 30px;
+}
+
+.index-container form .button-container button {
+  outline: none;
+  border-radius: 5px;
+  font-size: 1.5rem;
+  padding: 8px;
+  width: 100%;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+
+.index-container form .button-container .exit-button {
+  border: 1px solid #475569;
+  background-color: #475569;
+  color: white;
+}
+
+.index-container form .button-container .start-button {
+  border: 1px solid lightgray;
+  background-color: #ffff;
+}
+
+
+/* HOME PAGE */
+.home-page-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+}
+
+
+.home-page-container > h1 {
+  font-size: 8rem;
+  font-family: titleFont;
+  font-weight: 400;
+  color: white;
+  -webkit-text-stroke: 2px black;
+  letter-spacing: 5px;
+}
+
+.home-page-container > h2 {
+  margin-top: -20px;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+}
+
+.home-page-container .board-grid {
+  width: 600px;
+  height: 250px;
+  border: 1px solid black;
+
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  overflow: hidden;
+}
+
+.home-page-container .board-grid .tile-button {
+  outline: none;
+  border: 1px solid black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: tilesFont;
+  font-size: 3rem;
+  color: white;
+  -webkit-text-stroke: 2px black;
+  background-color: white;
+  cursor: pointer;
+}
+
+/* DIALOG BOX */
+dialog {
+  margin: auto;
+  border: none;
+  padding: 20px;
+}
+
+dialog .winner-message {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+dialog .winner-message span {
+  font-size: 6rem;
+  font-family: titleFont;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  -webkit-text-stroke: 2px black;
+  background:#dc2626;
+  -webkit-background-clip: text;
+  color: transparent
+}
+
+dialog .button-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+dialog .button-container > button {
+  width: 100%;
+  font-size: 1.8rem;
+  text-transform: uppercase;
+  padding: 6px;
+  border: 1px solid black;
+  border-radius: 5px;
+  outline: none;
+  cursor: pointer;
+}
+
+dialog .button-container > .empty-button {
+  display: none;
+}
