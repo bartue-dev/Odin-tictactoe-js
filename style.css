@@ -152,7 +152,7 @@ p, h1, h2, h3, h4, h5, h6 {
   letter-spacing: 2px;
 }
 
-.index-container form .button-container .exit-button {
+.index-container form .button-container .cancel-button {
   border: 1px solid #475569;
   background-color: #475569;
   color: white;
@@ -170,6 +170,7 @@ p, h1, h2, h3, h4, h5, h6 {
   flex-direction: column;
   align-items: center;
   height: 100vh;
+  display: none;
 }
 
 
@@ -198,6 +199,21 @@ p, h1, h2, h3, h4, h5, h6 {
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
   overflow: hidden;
+}
+
+.home-page-container .change-name-button-container button {
+  text-transform: uppercase;
+  font-size: 1.8rem;
+  padding: 5px 13px;
+  margin-top: 20px;
+  border-radius: 5px;
+  outline: none;
+  border: 1px solid transparent;
+  font-family: tilesFont;
+  color: white;
+  background-color: #475569;
+  letter-spacing: 5px;
+  cursor: pointer;
 }
 
 .home-page-container .board-grid .tile-button {
@@ -287,11 +303,12 @@ dialog .button-container > button {
   width: 100%;
   font-size: 1rem;
   text-transform: uppercase;
-  padding: 6px;
+  padding: 8px 10px;
   border: 1px solid black;
   border-radius: 5px;
   outline: none;
   cursor: pointer;
   font-family: tilesFont;
   letter-spacing: 2px;
+  text-wrap: nowrap;
 }
