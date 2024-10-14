@@ -1,25 +1,57 @@
 
 currentPlayer = "X";
+let playerData;
+const homePageContainer = document.querySelector(".home-page-container");
+const indexContainer = document.querySelector(".index-container");
+
 const boardGrid = document.querySelector(".board-grid");
 const turnMessage = document.querySelector(".turn-message");
+const cancelBtn = document.querySelector(".cancel-button");
+const changeNameBtn = document.querySelector(".change-name-button");
+
 const dialog = document.querySelector("dialog");
 const dialogPlayer = document.querySelector(".dialog-player");
 const dialogWinner = document.querySelector(".dialog-winner");
 const closeBtn = document.querySelector(".close-button");
 const playAgainBtn = document.querySelector(".play-again-button");
-dialog.classList.add("close")
+
+const form = document.querySelector("form");
+
+const inputPlayerOne = document.querySelector("#player-one");
+const inputPlayerTwo = document.querySelector("#player-two");
+
 
 playAgainBtn.addEventListener("click", (event) => {
   event.preventDefault();
   resetGame();
   dialog.close();
-})
+});
 
 closeBtn.addEventListener("click", (event) => {
   event.preventDefault();
   resetGame();
   dialog.close();
 });
+
+cancelBtn.addEventListener("click", (event) => {
+  event.preventDefault();
+
+  form.reset();
+});
+
+changeNameBtn.addEventListener("click", (event) => {
+  event.preventDefault();
+  homePageContainer.style.cssText = "display: none"
+  indexContainer.style.cssText = "display: flex"
+  resetGame();
+});
+
+function playerInfo (firstUsername, secondUsername) {
+  const playerOne = firstUsername;
+  const playerTwo = secondUsername;
+
+  return {playerOne, playerTwo}
+}
 
 let gameBoard = [
   [1, 2, 3],
@@ -37,10 +69,59 @@ const winningCombinations = [
   [3, 5, 7]
 ];
 
+//initial turn message
+inputPlayerOne.addEventListener("input", (event) => {
+  let initialPlayerOneVal = event.target.value;
+  inputPlayerTwo.addEventListener("input", () => {
+    if (inputPlayerOne.value === inputPlayerTwo.value) {
+      turnMessage.textContent = `${initialPlayerOneVal} 1 (X) turn`;
+    } else {
+      turnMessage.textContent = `${initialPlayerOneVal} (X) turn`;
+    }
+  })
+});
 
-function printBoard() {
-  //Use map method to return all the array with the a separator
-  console.log(gameBoard.map(row => row.join("|")).join("\n-----\n"))
+//if enter key is press at input 1 form would submit
+inputPlayerOne.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    submitForm();
+  }
+});
+
+//if enter key is press at input 1 form would submit
+inputPlayerTwo.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    submitForm();
+  }
+});
+
+//form is submit if the form button is click
+form.addEventListener("submit", (event) => {
+  event.preventDefault();
+  submitForm();  
+});
+
+//submit form function that can be reused to other function or event listener
+function submitForm() {
+  const inputPlayerOneVal = inputPlayerOne.value;
+  const inputPlayerTwoVal = inputPlayerTwo.value;
+
+  if (inputPlayerOneVal && inputPlayerTwoVal) {
+    playerData = playerInfo(inputPlayerOneVal, inputPlayerTwoVal);
+
+    homePageContainer.style.cssText = "display: flex"
+    indexContainer.style.cssText = "display: none"
+
+    form.reset();
+  }else {
+    console.log("No data to submit");
+  }
+  if (inputPlayerOneVal === inputPlayerTwoVal) {
+    playerData.playerOne = playerData.playerOne + " " + "1";
+    playerData.playerTwo = playerData.playerTwo + " " + "2";
+  }
 }
 
 function checkWin() {
@@ -52,15 +133,15 @@ function checkWin() {
 
     //checks if each tile in the mark are all "X"
     if (marks.every(mark => mark === "X")) {
-      console.log("Player 1 (X) wins");
-      dialogPlayer.textContent = "Player 1 (X)"
+      console.log(`${playerData.playerOne} wins`);
+      dialogPlayer.textContent = `${playerData.playerOne}`
       dialogWinner.textContent = "Won!"
       return true;
     }
     //checks if each tile in the mark are all "O"
     else if (marks.every(mark => mark === "O")) {
-      console.log("Player 2 (O) wins");
-      dialogPlayer.textContent = "Player 2 (O)"
+      console.log(`${playerData.playerTwo} wins`);
+      dialogPlayer.textContent = `${playerData.playerTwo}`
       dialogWinner.textContent = "Won!"
       return true;
     }
@@ -108,64 +189,9 @@ function resetGame() {
   //rest the current player state
   currentPlayer = "X";
   //reset the turn message state
-  turnMessage.textContent = "Player 1 (X) turn"
+  turnMessage.textContent = `${playerData.playerOne} (X) turn`
 }
 
-/* function playGame() {
-  let gameActive = true;
-
-  //loop the game until their's a winner or draw
-  while (gameActive) {
-    printBoard();
-    console.log(`${currentPlayer === "X" ? "Player 1 (X)" : "Player 2 (O)"}'s turn`);
-
-    //player choose move with prompt input
-    let boardTile = parseInt(prompt("Choose a tile between 1-9"));
-
-    // Validate input
-    if (isNaN(boardTile) || boardTile < 1 || boardTile > 9) {
-      console.log("Invalid move. Please choose a number between 1-9");
-      continue;  // Skip to next iteration of loop
-    }
-
-    //Instead of nested loop use the row and column to find the position in the 2D array
-    const row = Math.floor((boardTile - 1) / 3);
-    const col = (boardTile - 1) % 3;
-
-    // Check if the tile is already taken
-    if (typeof gameBoard[row][col] === 'string') {
-      console.log("This tile is already taken. Choose another one.");
-      continue;  // Skip to next iteration of loop
-    }
-
-    // Change the value of the tile with the marker of the current player
-    gameBoard[row][col] = currentPlayer;
-
-    // Check for win
-    if (checkWin()) {
-      printBoard();
-      console.log(`${currentPlayer === "X" ? "Player 1 (X)" : "Player 2 (O)"} wins!`);
-      gameActive = false;  // End the game
-      break;
-    }
-
-    // Check for draw
-    if (checkDraw()) {
-      printBoard();
-      console.log("It's a draw!");
-      gameActive = false;  // End the game
-      break;
-    }
-
-    // If game continues, switch player
-    switchPlayer();
-  }
-
-  // Game end message
-  console.log("Game Over!");
-  return;
-}
-playGame(); */
 function playGame() {
 
   for (i = 0; i < gameBoard.length; i++) {
@@ -173,8 +199,8 @@ function playGame() {
 
       const tile = document.createElement("button");
       tile.classList.add("tile-button");
-      tile.dataset.row = i;
-      tile.dataset.col = j;
+      tile.dataset.row = i;//set a data attribute to each DOM tile with data-row = "0" value of i
+      tile.dataset.col = j;//set a data attribute to each DOM tile with data-col = "0" value of j
       boardGrid.appendChild(tile);
 
       
@@ -194,7 +220,7 @@ function playGame() {
         gameBoard[row][col] = currentPlayer; //Change the value of the game board that is selected in DOM board
         tile.textContent = currentPlayer;
         switchPlayer();
-        currentPlayer === "X" ? `${turnMessage.textContent = "Player 1 (X) turn"}` : `${turnMessage.textContent = "Player 2 (O) turn"}`;
+        currentPlayer === "X" ? `${turnMessage.textContent = `${playerData.playerOne} (X) turn`}` : `${turnMessage.textContent = `${playerData.playerTwo} (O) turn`}`;
         console.log(gameBoard);
 
 
