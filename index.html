@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/style.css">
+  <title>Odin | Tictactoe</title>
+</head>
+
+<body>
+
+  <div class="index-container">
+    <h1>Tictactoe</h1>
+    <h2>Enter Players username</h2>
+
+    <form action="#" method="GET">
+
+      <div class="player-one-container">
+        <label for="player-one">Player 1 (X)</label>
+        <input type="text" id="player-one" required>
+      </div>
+
+      <div class="player-two-container">
+        <label for="player-two">Player 2 (O)</label>
+        <input type="text" id="player-two" required>
+      </div>
+
+      <div class="button-container">
+        <button class="cancel-button">Cancel</button>
+        <button class="start-button" type="submit">Start</button>
+      </div>
+
+    </form>
+  </div>
+
+
+  <div class="home-page-container">
+
+    <h1>Tictactoe</h1>
+
+    <h2 class="turn-message"></h2>
+
+    <div class="board-grid">
+      <!-- tile -->
+    </div>
+
+    <div class="change-name-button-container">
+      <button class="change-name-button">
+        change name
+      </button>
+    </div>
+
+    <!-- dialog box appear if their's a winner or draw -->
+    <dialog>
+      <div class="winner-message">
+        <span class="dialog-player"></span>
+        <span class="dialog-winner"></span>
+      </div>
+      <div class="button-container">
+        <button class="close-button">close</button>
+        <button class="play-again-button">play again</button>
+      </div>
+    </dialog>
+
+  </div>
+
+  <script src="/script.js" defer>
+    console.log(location.search);
+  </script>
+</body>
+
+</html>
