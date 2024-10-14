@@ -6,9 +6,18 @@ const dialog = document.querySelector("dialog");
 const dialogPlayer = document.querySelector(".dialog-player");
 const dialogWinner = document.querySelector(".dialog-winner");
 const closeBtn = document.querySelector(".close-button");
+const playAgainBtn = document.querySelector(".play-again-button");
+dialog.classList.add("close")
+
+playAgainBtn.addEventListener("click", (event) => {
+  event.preventDefault();
+  resetGame();
+  dialog.close();
+})
 
 closeBtn.addEventListener("click", (event) => {
   event.preventDefault();
+  resetGame();
   dialog.close();
 });
 
@@ -191,13 +200,13 @@ function playGame() {
 
         if (checkWin()) {
           dialog.showModal();
-          resetGame();          
+          //resetGame();          
           return;
         }
 
         if (checkDraw()) {
           dialog.showModal();
-          resetGame();
+          //resetGame();
           return;
         }
       });
